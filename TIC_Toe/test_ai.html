@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Test</title>
+</head>
+<body>
+    <h1>Tic-Tac-Toe AI Test</h1>
+    <div id="test-results"></div>
+    
+    <script>
+        // Simple test to verify AI algorithm
+        class AITester {
+            constructor() {
+                this.runTests();
+            }
+
+            // Test the minimax algorithm
+            testMinimax() {
+                // Test case 1: AI should block player from winning
+                let board1 = ['X', 'X', '', '', 'O', '', '', '', ''];
+                let ai = new TicTacToeAI();
+                ai.board = board1;
+                let move = ai.getBestMove();
+                console.log('Test 1 - Block player win:', move === 2 ? 'PASS' : 'FAIL', 'Move:', move);
+
+                // Test case 2: AI should win when possible
+                let board2 = ['O', 'O', '', 'X', 'X', '', '', '', ''];
+                ai.board = board2;
+                move = ai.getBestMove();
+                console.log('Test 2 - AI should win:', move === 2 ? 'PASS' : 'FAIL', 'Move:', move);
+
+                // Test case 3: AI should take center if available
+                let board3 = ['X', '', '', '', '', '', '', '', ''];
+                ai.board = board3;
+                move = ai.getBestMove();
+                console.log('Test 3 - Take center:', move === 4 ? 'PASS' : 'FAIL', 'Move:', move);
+
+                return 'AI Tests completed - check console for results';
+            }
+
+            runTests() {
+                const results = document.getElementById('test-results');
+                results.innerHTML = '<p>Running AI tests...</p>';
+                
+                // Load the main script first
+                const script = document.createElement('script');
+                script.src = 'script.js';
+                script.onload = () => {
+                    setTimeout(() => {
+                        const testResult = this.testMinimax();
+                        results.innerHTML = `<p>${testResult}</p><p>Check browser console for detailed results.</p>`;
+                    }, 100);
+                };
+                document.head.appendChild(script);
+            }
+        }
+
+        // Run tests when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new AITester();
+        });
+    </script>
+</body>
+</html>
